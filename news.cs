@@ -20,6 +20,6 @@ namespace News {
             
             Console.WriteLine(xml);
             Console.ReadLine();
-        }$mom
+        }
     }
 }
