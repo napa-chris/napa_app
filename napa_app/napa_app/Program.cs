@@ -16,13 +16,10 @@ namespace napa_app
             //alchemyObj.SetAPIKey("4c32fab89d526ce5e132a82213f68daf67c5d266");
 
             AlchemyAPI_NewsParams prms = new AlchemyAPI_NewsParams();
-            prms.setStartDate(30, 'd');
-            prms.setEndDate();
-            //string[] taxonomy = { "books" };
-            string[] entityText = { "elon+musk" };
-            //prms.addTaxonomy(taxonomy);
-            prms.addEntityText(entityText);
-            prms.setCount(10);
+            prms.StartDate = "now-30d";
+            prms.EndDate = "now";
+            prms.Count = 10;
+            prms.setEntities(new Entity(EntityType.Person, "Elon Musk"));
             string xml = alchemyObj.GetNews(prms);
 
             Console.WriteLine(xml);
