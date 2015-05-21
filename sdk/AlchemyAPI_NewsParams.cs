@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +17,11 @@ namespace AlchemyAPI
             GreaterThan,
             LessThan
         }
-
+        public enum EntityType {
+            Person,
+            Company
+        }
+        
         private const string TAXONOMY_LABEL = "&q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label=";
         private const string CONCEPT_TEXT = "&q.enriched.url.concepts.concept.text=";
         private const string KEYWORD_TEXT = "&q.enriched.url.enrichedTitle.keywords.keyword.text=";
@@ -97,41 +101,65 @@ namespace AlchemyAPI
 
         public override String getParameterString()
         {
-            String retString = base.getParameterString();
+            StringBuilder retString = new StringBuilder();
+            retString.Append(base.getParameterString());
+            
             if(_count != 0 || _count != null)
             {
-                retString += "&count=" + _count.ToString();
+                retString.Append("&count=");
+                retString.Append(_count.ToString());
             }
             if (_taxonomy.Count > 0)
             {
-                retString += TAXONOMY_LABEL + string.Join("+", _taxonomy.ToArray());
+                //retString += TAXONOMY_LABEL + string.Join("+", _taxonomy.ToArray());
+                retString.Append(TAXONOMY_LABEL);
+                retString.Append(string.Join("+", _taxonomy.ToArray()));
             }
             if (_concepts.Count > 0)
             {
-                retString += CONCEPT_TEXT + string.Join("+", _concepts.ToArray());
+                //retString += CONCEPT_TEXT + string.Join("+", _concepts.ToArray());
+                retString.Append(CONCEPT_TEXT);
+                retString.Append(string.Join("+", _concepts.ToArray()));
             }
             if (_keyWords.Count > 0)
             {
-                retString += KEYWORD_TEXT + string.Join("+", _keyWords.ToArray());
+                //retString += KEYWORD_TEXT + string.Join("+", _keyWords.ToArray());
+                retString.Append(KEYWORD_TEXT);
+                retString.Append(string.Join("+", _keyWords.ToArray()));
             }
             if (_entityText.Count > 0)
             {
-                retString += ENTITY_TEXT + string.Join("+", _entityText.ToArray());
+                //retString += ENTITY_TEXT + string.Join("+", _entityText.ToArray());
+                retString.Append(ENTITY_TEXT);
+                retString.Append(string.Join("+", _entityText.ToArray()));
             }
             if (_entityType.Count > 0)
             {
-                retString += ENTITY_TYPE + string.Join("+", _entityType.ToArray());
+                //retString += ENTITY_TYPE + string.Join("+", _entityType.ToArray());
+                retString.Append(ENTITY_TYPE);
+                retString.Append(string.Join("+", _entityType.ToArray()));
             }
             if (_relations.Count > 0)
             {
-                retString += RELATION + _relations;
+                //retString += RELATION + _relations;
+                retString.Append(RELATION);
+                retString.Append(_relations);
             }
             if (_sentiment != null)
             {
-                retString += SENTIMENT + "|" + _sentimentType + "score=" + _sentimentScoreEquality + _sentiment + "|";                
+                //retString += SENTIMENT + "|" + _sentimentType + "score=" + _sentimentScoreEquality + _sentiment + "|";                
+                retString.Append(SENTIMENT);
+                retString.Append("|");
+                retString.Append(_sentimentType);
+                retString.Append("score=");
+                retString.Append(_sentimentScoreEquality);
+                retString.Append(_sentiment);
+                retString.Append("|");
             }
-            retString += _startDate + _endDate;
-            return retString;
+            //retString += _startDate + _endDate;
+            retString.Append(_startDate);
+            retString.Append(_endDate);
+            return retString.ToString();
         }
     }
 }
