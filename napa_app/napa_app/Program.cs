@@ -11,7 +11,7 @@ namespace napa_app
 {
     class Program
     {
-        public async static Task DoStuff(string json)
+        public async static Task SaveResults(string json)
         {
             var client = new MongoClient("mongodb://napa_user:Password0@ds031982.mongolab.com:31982/heroku_app37054022");
 
@@ -35,7 +35,7 @@ namespace napa_app
             prms.setEntities(new Entity(EntityType.Person, "Elon Musk"));
             string json = alchemyObj.GetNews(prms);
 
-            var task = DoStuff(json);
+            var task = SaveResults(json);
             task.Wait();
 
             Console.WriteLine(json);
