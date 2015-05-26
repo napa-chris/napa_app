@@ -35,8 +35,8 @@ namespace napa_app
             prms.setEntities(new Entity(EntityType.Person, "Elon Musk"));
             string json = alchemyObj.GetNews(prms);
 
-            //var task = DoStuff(json);
-            //task.Wait();
+            var task = DoStuff(json);
+            task.Wait();
 
             Console.WriteLine(json);
             Console.ReadLine();
