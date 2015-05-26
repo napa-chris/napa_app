@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlchemyAPI;
+using napa_app.sdk;
 using MongoDB.Driver;
 using MongoDB.Bson;
 
@@ -33,12 +34,12 @@ namespace napa_app
             prms.EndDate = "now";
             prms.Count = 10;
             prms.setEntities(new Entity(EntityType.Person, "Elon Musk"));
+            prms.setReturn(ReturnOutputData.Url, ReturnOutputData.Title, ReturnOutputData.Taxonomy);
             string json = alchemyObj.GetNews(prms);
 
             var task = SaveResults(json);
             task.Wait();
 
-            Console.WriteLine(json);
             Console.ReadLine();
 
         }
