@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlchemyAPI;
+using napa_app.sdk;
 
 namespace napa_app
 {
@@ -20,6 +21,7 @@ namespace napa_app
             prms.EndDate = "now";
             prms.Count = 10;
             prms.setEntities(new Entity(EntityType.Person, "Elon Musk"));
+            prms.setReturn(ReturnOutputData.Url, ReturnOutputData.Title, ReturnOutputData.Taxonomy);
             string xml = alchemyObj.GetNews(prms);
 
             Console.WriteLine(xml);

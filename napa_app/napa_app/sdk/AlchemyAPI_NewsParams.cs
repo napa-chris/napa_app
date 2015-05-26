@@ -17,6 +17,7 @@ namespace AlchemyAPI
         private const string COUNT = "count";
         private const string START_DATE = "start";
         private const string END_DATE = "end";
+        private const string RETURN = "&return";
 
         private readonly Dictionary<string, string> _commands;
 
@@ -50,6 +51,11 @@ namespace AlchemyAPI
         public void setTaxonomy(params string[] s)
         {
             _commands[TAXONOMY_LABEL] = String.Join("+", s);
+        }
+
+        public void setReturn(params string[] s)
+        {
+            _commands[RETURN] = String.Join(",", s);
         }
 
         public void setEntities(params Entity[] entities)
