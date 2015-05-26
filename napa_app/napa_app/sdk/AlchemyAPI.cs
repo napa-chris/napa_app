@@ -961,12 +961,7 @@ namespace AlchemyAPI
 
                 if (string.IsNullOrEmpty(xml))
                     throw new XmlException ("The API request returned back an empty response. Please verify that the url is correct.");
-
-                if (outputMode == AlchemyAPI_BaseParams.OutputMode.JSON)
-                {
-                    return xml;
-                }
-
+			
                 XmlDocument xmlDoc = new XmlDocument ();
                 xmlDoc.LoadXml(xml);
 

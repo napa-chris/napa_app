@@ -70,7 +70,6 @@
     <Compile Include="sdk\AlchemyAPI_TargetedSentimentParams.cs" />
     <Compile Include="sdk\AlchemyAPI_TaxonomyParams.cs" />
     <Compile Include="sdk\AlchemyAPI_TextParams.cs" />
-    <Compile Include="sdk\ReturnOutputData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
