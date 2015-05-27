@@ -9,15 +9,19 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.IO;
+using System.IO;
 
 namespace napa_app
 {
     class Program
     {
+        const string mongo_conn = "mongodb://napa_user:Password0@ds031982.mongolab.com:31982/heroku_app37054022";
+        const string mongo_db = "heroku_app37054022";
+
         public async static Task SaveResults(string json)
         {
-            var client = new MongoClient("mongodb://napa_user:Password0@ds031982.mongolab.com:31982/heroku_app37054022");
-            var db = client.GetDatabase("heroku_app37054022");
+            var client = new MongoClient(mongo_conn);
+            var db = client.GetDatabase(mongo_db);
             var collection = db.GetCollection<BsonDocument>("results");
             BsonDocument document = BsonSerializer.Deserialize<BsonDocument>(json);
             var status = document.GetElement("status");
@@ -31,20 +35,22 @@ namespace napa_app
 
         public async static Task GetDocs()
         {
-            var client = new MongoClient("mongodb://napa_user:Password0@ds031982.mongolab.com:31982/heroku_app37054022");
-            var db = client.GetDatabase("heroku_app37054022");
+            var client = new MongoClient(mongo_conn);
+            var db = client.GetDatabase(mongo_db);
             var collection = db.GetCollection<BsonDocument>("results");
             var filter = Builders<BsonDocument>.Filter;
-            filter.ElemMatch("source.enriched.url.taxonomy", Builders<BsonDocument>.Filter.And(Builders<BsonDocument>.Filter.Gt("score", 0.5), Builders<BsonDocument>.Filter.Regex("label", "*.science.*")));
+            filter.ElemMatch("source.enriched.url.taxonomy", filter.And(filter.Gt("score", 0.5),
+                    filter.Regex("label", ".*science.*")
+                ));
+
             using (var cursor = await collection.Find(filter.ToBsonDocument()).ToCursorAsync())
             {
-                while (await cursor.MoveNextAsync())
-                {
-                    foreach (var doc in cursor.Current)
-                    {
-                        Console.WriteLine(doc);
-                    }
-                }
+                using (FileStream file = File.Open("results.txt", FileMode.OpenOrCreate))
+                using (StreamWriter sw = new StreamWriter(file))
+                    while (await cursor.MoveNextAsync())
+                        foreach (var doc in cursor.Current)
+                            sw.WriteLine(doc.ToString() + "\n");
+
             }
         }
 
